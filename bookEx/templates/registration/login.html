@@ -1,0 +1,33 @@
+{% extends "home.html" %}
+
+{% block title %}
+   Login Page
+{% endblock title %}
+
+<!--{% block sidenav %}-->
+<!--   <li>-->
+<!--       <a href="/"> Home </a>-->
+<!--   </li>-->
+<!--{% endblock sidenav %}-->
+
+{% block content %}
+   <h1 class="my-4 text-center"> User Login Form </h1>
+      <form action="{% url 'login' %}" method="post" >
+          <table align="center">
+              {{ form.as_table }}
+              <tr>
+                  <td>
+                      <input class="btn btn-primary" type="submit" value="Submit">
+                  </td>
+                  <td>
+                      <a href="{% url 'register' %}"> Create an account</a>
+                  </td>
+              </tr>
+          </table>
+
+
+
+          <input type="hidden" name="next" value="{{ next }}" />
+          {% csrf_token %}
+      </form>
+{% endblock content %}

@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            title x
+        {% endblock title %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="{% static 'main.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div>
+     <header id="header">
+         <div>
+             <img src="{% static 'logo.jpg' %}" width="80">
+         </div>
+
+         <span style="float: right;">
+             {% if user.is_authenticated %}
+                  {{ user.username }}
+                  <a class="display-4" href="{% url 'logout' %}?next=/">Logout</a>
+             {% else %}
+                  Not logged in.
+                  <a class="display-4" href="{% url 'login' %}?next=/">Login</a>
+             {% endif %}
+         </span>
+
+<!--         <div>-->
+<!--             <img src="{% static 'banner.jpg' %}" width="700" height="120">-->
+<!--         </div>-->
+     </header>
+      <aside id="leftsidebar" >
+        <nav id="nav">
+            <ul>
+                {% block sidenav %}
+                <li>
+                    Menu 1
+                </li>
+                <li>
+                    Menu 2
+                </li>
+                {% endblock sidenav %}
+            </ul>
+        </nav>
+      </aside>
+
+      <section id="main">
+          {% block content %}
+          <h1> This is Book Exchange System</h1>
+          {% endblock content %}
+      </section>
+      <footer id="footer" class="text-bg-dark p-3">
+          2023 Spring CS3337 Project
+      </footer>
+  </div>
+</body>
+</html>

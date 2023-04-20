@@ -1,0 +1,29 @@
+{% extends "home.html" %}
+
+{% load static %}
+
+<!--{% block title %}-->
+<!--   Book Detail Page-->
+<!--{% endblock title %}-->
+
+<!--{% block sidenav %}-->
+<!--    {% for item in item_list %}-->
+<!--      <li>-->
+<!--          <a href="{{ item.link }}"> {{ item.item }} </a>-->
+<!--      </li>-->
+<!--    {% endfor %}-->
+<!--{% endblock sidenav %}-->
+
+{% block content %}
+    <h1 align="center" class="my-4"> Book Detail Page </h1>
+    <div class="d-flex justify-content-center mt-5">
+        <img src="{% static book.pic_path %}" height="200">
+        <div class="mx-4 text-start">
+            <p class="h2">{{ book.name }}</p>
+            <p class="h4">By {{ book.username }}</p>
+            <p class="h4">{{ book.publishdate }}</p>
+            <p class="h3">${{ book.price }}</p>
+        </div>
+    </div>
+
+{% endblock content %}

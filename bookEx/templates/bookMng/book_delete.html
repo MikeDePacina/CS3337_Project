@@ -1,0 +1,20 @@
+{% extends "home.html" %}
+
+{% load static %}
+
+{% block title %}
+   Book Detail Page
+{% endblock title %}
+
+{% block sidenav %}
+    {% for item in item_list %}
+      <li>
+          <a href="{{ item.link }}"> {{ item.item }} </a>
+      </li>
+    {% endfor %}
+{% endblock sidenav %}
+
+{% block content %}
+    <h1 align="center"> Book Deletion successful </h1>
+
+{% endblock content %}

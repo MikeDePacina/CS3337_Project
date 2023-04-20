@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="{% static 'main.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+   <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'logo.jpg' %}" width="70">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% block nav %}
+
+<!--                         {% for item in item_list %}-->
+<!--                            {% if user.is_authenticated %}-->
+<!--                                <li class="nav-item">-->
+<!--                                    <a class="nav-link" href="{{ item.link }}"> {{ item.item }} </a>-->
+<!--                                </li>-->
+<!--                            {% else %}-->
+<!--                                {% if item.item == "My Books" %}-->
+<!--                                {% elif item.item == "Post Book" %}-->
+<!--                                {% else %}-->
+<!--                                 <li class="nav-item">-->
+<!--                                     <a class="nav-link" href="{{ item.link }}"> {{ item.item }} </a>-->
+<!--                                </li>-->
+<!--                                {% endif%}-->
+<!--                            {% endif %}-->
+<!--                            {% endfor %}-->
+                    {% if user.is_authenticated%}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about_us"> About us </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/displaybooks"> Display Books </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/postbook"> Post book </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/mybooks"> My books </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}?next=/"> Logout </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about_us"> About us </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/displaybooks"> Display Books </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}?next=/"> Login </a>
+                        </li>
+                        <li class="nav-item">
+                             <a class="nav-link" href="{% url 'register' %}"> Register </a>
+                        </li>
+                    {% endif%}
+                    {% endblock nav%}
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+   </nav>
+
+   <div class="container-fluid text-center pt-4 m-6 mx-auto">
+       {%block content%}
+
+       {%endblock content%}
+   </div>
+
+     <footer  class="text-bg-dark  p-3 mt-auto text-center">
+         &#169; 2023 Spring CS3337 Project
+      </footer>
+</body>
+</html>

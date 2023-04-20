@@ -1,0 +1,32 @@
+{% extends "home.html" %}
+
+{% block title %}
+   Post Book Page
+{% endblock title %}
+
+{% block sidenav %}
+    {% for item in item_list %}
+      <li>
+          <a href="{{ item.link }}"> {{ item.item }} </a>
+      </li>
+    {% endfor %}
+{% endblock sidenav %}
+
+{% block content %}
+   <h1 class="text-center my-4"> Post book Form </h1>
+   {% if  submitted %}
+        <h1 align="center"> post book successfully </h1>
+   {% else %}
+      <form action="" enctype="multipart/form-data" method="post" novalidate>
+          <table align="center">
+              {{ form.as_table }}
+              <tr>
+                  <td>
+                      <input class="btn btn-primary" type="submit" value="Submit">
+                  </td>
+              </tr>
+          </table>
+          {% csrf_token %}
+      </form>
+   {% endif %}
+{% endblock content %}
