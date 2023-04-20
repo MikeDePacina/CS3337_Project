@@ -12,10 +12,12 @@ from .models import Book
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 
 def index(request):
-    return render(request,'bookMng/index.html')
+    return render(request, 'bookMng/index.html')
+
 
 def displaybooks(request):
     books = Book.objects.all()
@@ -31,15 +33,17 @@ def displaybooks(request):
                   }
                   )
 
+
 def home(request):
     return render(request, 'bookMng/home.html')
+
 
 def postbook(request):
     submitted = False
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            #form.save()
+            # form.save()
             book = form.save(commit=False)
             try:
                 book.username = request.user
@@ -60,10 +64,6 @@ def postbook(request):
                       'submitted': submitted,
                   }
                   )
-
-
-
-
 
 
 class Register(CreateView):
@@ -89,7 +89,7 @@ def book_detail(request, book_id):
 
 
 def mybooks(request):
-    books = Book.objects.filter(username = request.user)
+    books = Book.objects.filter(username=request.user)
     for book in books:
         book.pic_path = book.picture.url[14:]
     return render(request,
@@ -100,6 +100,7 @@ def mybooks(request):
                   }
                   )
 
+
 def book_delete(request, book_id):
     book = Book.objects.get(id=book_id)
     book.delete()
@@ -109,3 +110,13 @@ def book_delete(request, book_id):
                       'item_list': MainMenu.objects.all(),
                   }
                   )
+
+
+def search(request):
+    query = request.GET.get('q')
+    books = Book.objects.filter(
+        Q(name__icontains=query)
+    )
+    for book in books:
+        book.pic_path = book.picture.url[14:]
+    return render(request, 'bookMng/search.html', {'books': books})
