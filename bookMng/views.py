@@ -90,8 +90,11 @@ def book_detail(request, book_id):
 
 def mybooks(request):
     books = Book.objects.filter(username=request.user)
-    for book in books:
-        book.pic_path = book.picture.url[14:]
+    if len(books) == 0:
+        books = None
+    else:
+        for book in books:
+            book.pic_path = book.picture.url[14:]
     return render(request,
                   'bookMng/mybooks.html',
                   {
@@ -117,6 +120,9 @@ def search(request):
     books = Book.objects.filter(
         Q(name__icontains=query)
     )
-    for book in books:
-        book.pic_path = book.picture.url[14:]
+    if len(books) == 0:
+        books = None
+    else:
+        for book in books:
+            book.pic_path = book.picture.url[14:]
     return render(request, 'bookMng/search.html', {'books': books})

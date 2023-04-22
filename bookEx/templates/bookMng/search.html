@@ -14,16 +14,19 @@
 {% block content %}
     <h1 class="my-4 text-center">Search Results</h1>
     <div class="d-flex flex-wrap justify-content-center">
-
-        {% for book in books %}
-            <div class="card m-3" style="width: 18rem;">
-                <img src="{% static book.pic_path %}" class="card-img-top" alt="book cover" height="200">
-                <div class="card-body">
-                    <h5 class="card-title">{{ book.name }}</h5>
-                    <a href="book_detail/{{ book.id }}" class="btn btn-primary">book details</a>
+        {% if books is None %}
+            <h2>No book(s) even similar to that title</h2>
+        {% else %}
+            {% for book in books %}
+                <div class="card m-3" style="width: 18rem;">
+                    <img src="{% static book.pic_path %}" class="card-img-top" alt="book cover" height="200">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.name }}</h5>
+                        <a href="book_detail/{{ book.id }}" class="btn btn-primary">book details</a>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
 
     </div>
 

@@ -16,9 +16,9 @@
 
 {% block content %}
     <h1 align="center" class="my-4"> Book Detail Page </h1>
-    <div class="d-flex justify-content-center mt-5">
+    <div class="d-flex flex-wrap justify-content-center mt-5">
         <img src="{% static book.pic_path %}" height="200">
-        <div class="mx-4 text-start">
+        <div class="m-4 text-start">
             <p class="h2">{{ book.name }}</p>
             <p class="h4">By {{ book.username }}</p>
             <p class="h4">{{ book.publishdate }}</p>
