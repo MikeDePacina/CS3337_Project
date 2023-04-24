@@ -4,13 +4,7 @@
    Registration Success!
 {% endblock title %}
 
-{% block sidenav %}
-   <li>
-       <a href="/"> Home </a>
-   </li>
-{% endblock sidenav %}
 
 {% block content %}
-   <h1 align="center"> Registration Success! </h1>
-   <h1> To login <a href="{% url 'login' %}?next=/">Click Here </a> </h1>
+    <meta http-equiv="refresh" content="0; URL=/login">
 {% endblock content %}
