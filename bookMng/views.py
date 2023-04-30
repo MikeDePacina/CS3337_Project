@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -12,6 +12,8 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.db.models import Q
+from .models import Rating
+from django.db.models import Avg
 
 
 def index(request):
@@ -78,12 +80,21 @@ class Register(CreateView):
 def book_detail(request, book_id):
     book = Book.objects.get(id=book_id)
     book.pic_path = book.picture.url[14:]
+    average_rating = Rating.objects.filter(book=book).aggregate(Avg('value'))['value__avg']
+    user_rating = None
+    if request.user.is_authenticated:
+        user_rating = Rating.objects.filter(book=book, user=request.user).first()
+
     return render(request,
                   'bookMng/book_detail.html',
                   {
                       'item_list': MainMenu.objects.all(),
-                      'book': book
+                      'book': book,
+                      'average_rating': average_rating,
+                      'user_rating': user_rating
+
                   }
+
                   )
 
 
@@ -125,3 +136,16 @@ def search(request):
         for book in books:
             book.pic_path = book.picture.url[14:]
     return render(request, 'bookMng/search.html', {'books': books})
+
+
+def submit_rating(request, book_id):
+    if request.method == 'POST':
+        book = Book.objects.get(id=book_id)
+        rating_value = request.POST.get('value')
+        user_rating = Rating.objects.filter(book=book, user=request.user).first()
+        if user_rating:
+            user_rating.value = rating_value
+            user_rating.save()
+        else:
+            Rating.objects.create(book=book, user=request.user, value=rating_value)
+    return redirect('book_detail', book_id=book_id)

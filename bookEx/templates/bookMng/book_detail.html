@@ -19,6 +19,27 @@
     <div class="d-flex flex-wrap justify-content-center mt-5">
         <img src="{% static book.pic_path %}" height="200">
         <div class="m-4 text-start">
+<p>Average rating: {{ average_rating|floatformat:1 }}</p>
+{% if request.user.is_authenticated %}
+    {% if user_rating %}
+        <p>Your rating: {{ user_rating.value }}/5</p>
+            <form action="{% url 'submit_rating' book.id %}" method="post">
+            {% csrf_token %}
+            <label for="rating">Update your rating 1-5:</label>
+            <input type="number" name="value" min="1" max="5">
+            <input type="submit" value="Submit">
+        </form>
+    {% else %}
+        <form action="{% url 'submit_rating' book.id %}" method="post">
+            {% csrf_token %}
+            <label for="rating">Rate This 1-5:</label>
+            <input type="number" name="value" min="1" max="5">
+            <input type="submit" value="Submit">
+        </form>
+    {% endif %}
+{% else %}
+    <p><a href="{% url 'login' %}?next={{ request.path }}">Click here to log in and rate this book</a></p>
+{% endif %}
             <p class="h2">{{ book.name }}</p>
             <p class="h4">By {{ book.username }}</p>
             <p class="h4">{{ book.publishdate }}</p>
