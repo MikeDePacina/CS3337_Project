@@ -22,11 +22,12 @@ from bookMng.views import Register
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('comment/', include('comment.urls')),
     path('register', Register.as_view(), name='register'),
     path('register/success', TemplateView.as_view(
         template_name="registration/register_success.html"),
          name='register-success'
-    ),
+         ),
     path('', include('django.contrib.auth.urls')),
     path('', include('bookMng.urls')),
 ]

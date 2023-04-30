@@ -23,6 +23,8 @@
             <p class="h4">By {{ book.username }}</p>
             <p class="h4">{{ book.publishdate }}</p>
             <p class="h3">${{ book.price }}</p>
+            {% load comment_tags %}
+{% render_comments book request %}
         </div>
     </div>
 

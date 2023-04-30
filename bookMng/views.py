@@ -8,7 +8,6 @@ from .models import MainMenu
 from .forms import BookForm
 from django.http import HttpResponseRedirect
 from .models import Book
-
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy

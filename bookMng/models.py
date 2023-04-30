@@ -3,6 +3,11 @@ from django.db import models
 # Create your models here.
 
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
+from django.urls import reverse
+
+from comment.models import Comment
 
 
 class MainMenu(models.Model):
@@ -21,10 +26,11 @@ class Book(models.Model):
     picture = models.FileField(upload_to='bookEx/static/uploads')
     pic_path = models.CharField(max_length=300, editable=False, blank=True)
     username = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    comments = GenericRelation(Comment)
 
     def __str__(self):
         return str(self.id)
 
-
-
+    def get_absolute_url(self):
+        return reverse('post_detail_url', kwargs={'slug': self.slug})
 
