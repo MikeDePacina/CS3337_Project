@@ -24,7 +24,7 @@
                 <img src="{% static book.pic_path %}" class="card-img-top" alt="book cover" height="200">
                 <div class="card-body">
                     <h5 class="card-title">{{ book.name }}</h5>
-                    <p class="card-text">Average rating: {{ book.avg_rating|floatformat:1 }}</p>
+                    <p class="card-text">Average rating: {{ book.avg_rating|floatformat:1 }}/5</p>
                     <a href="book_detail/{{ book.id }}" class="btn btn-primary">book details</a>
                 </div>
             </div>
