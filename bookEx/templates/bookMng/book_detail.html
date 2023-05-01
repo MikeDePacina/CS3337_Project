@@ -26,14 +26,26 @@
             <form action="{% url 'submit_rating' book.id %}" method="post">
             {% csrf_token %}
             <label for="rating">Update your rating 1-5:</label>
-            <input type="number" name="value" min="1" max="5">
+            <select name="value">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
             <input type="submit" value="Submit">
         </form>
     {% else %}
         <form action="{% url 'submit_rating' book.id %}" method="post">
             {% csrf_token %}
             <label for="rating">Rate This 1-5:</label>
-            <input type="number" name="value" min="1" max="5">
+            <select name="value">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
             <input type="submit" value="Submit">
         </form>
     {% endif %}
