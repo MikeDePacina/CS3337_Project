@@ -21,7 +21,8 @@ def index(request):
 
 
 def displaybooks(request):
-    books = Book.objects.all()
+    # books = Book.objects.all()
+    books = Book.objects.annotate(avg_rating=Avg('rating__value'))
 
     for book in books:
         book.pic_path = book.picture.url[14:]
@@ -30,7 +31,7 @@ def displaybooks(request):
                   'bookMng/displaybooks.html',
                   {
                       'item_list': MainMenu.objects.all(),
-                      'books': books
+                      'books': books,
                   }
                   )
 
