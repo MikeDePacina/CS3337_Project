@@ -1,3 +1,4 @@
+
 {% extends "home.html" %}
 {% load static %}
 <!--{% block title %}-->
@@ -11,7 +12,9 @@
 
 
 
-
+    {% if submitted%}
+        <meta http-equiv="refresh" content="0; URL=/displaybooks">
+    {% endif %}
     <div class="h1 text-center my-3">
         Books
     </div>
@@ -21,11 +24,23 @@
 
         {% for book in books %}
             <div class="card m-3" style="width: 18rem;">
+
+
+
                 <img src="{% static book.pic_path %}" class="card-img-top" alt="book cover" height="200">
                 <div class="card-body">
                     <h5 class="card-title">{{ book.name }}</h5>
-<!--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                    <p class="card-text">Average rating: {{ book.avg_rating|floatformat:1 }}/5</p>
                     <a href="book_detail/{{ book.id }}" class="btn btn-primary">book details</a>
+                    {% if user.is_authenticated %}
+                        {% if book in favoriteBooks %}
+                            <a href="displaybooks/remove/{{ book.id }}" class="btn btn-secondary">Remove from favorites</a>
+                        {% else %}
+                            <a href="displaybooks/add/{{ book.id }}" class="btn btn-success">Add to favorites</a>
+                        {% endif %}
+                    {% endif %}
+
+
                 </div>
             </div>
         {% endfor %}

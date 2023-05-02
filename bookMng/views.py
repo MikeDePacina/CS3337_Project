@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from .models import MainMenu
+from .models import FavoriteList
 from .forms import BookForm
 from django.http import HttpResponseRedirect
 from .models import Book
@@ -21,6 +22,66 @@ def index(request):
 
 
 def displaybooks(request):
+    favoriteBooks = None
+    books = Book.objects.annotate(avg_rating=Avg('rating__value'))
+
+    if request.user.is_authenticated:
+
+        if FavoriteList.objects.filter(username=request.user).first():
+            favorites_list = FavoriteList.objects.get(username=request.user)
+            favoriteBooks = Book.objects.filter(favoriteLists=favorites_list)
+            for book in favoriteBooks:
+                book.pic_path = book.picture.url[14:]
+
+    for book in books:
+        book.pic_path = book.picture.url[14:]
+
+
+    return render(request,
+                  'bookMng/displaybooks.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'books': books,
+                      'favoriteBooks': favoriteBooks
+                  }
+                  )
+
+def remove_from_favorites(request,book_id):
+    book = Book.objects.get(id=book_id)
+    flist = FavoriteList(username=request.user)
+    book.favoriteLists.remove(flist)
+    favoriteBooks = None
+    books = Book.objects.all()
+
+    if FavoriteList.objects.filter(username=request.user).first():
+        favorites_list = FavoriteList.objects.get(username=request.user)
+        favoriteBooks = Book.objects.filter(favoriteLists=favorites_list)
+        for book in favoriteBooks:
+            book.pic_path = book.picture.url[14:]
+
+    for book in books:
+        book.pic_path = book.picture.url[14:]
+
+
+    return render(request,
+                  'bookMng/displaybooks.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'books': books,
+                      'favoriteBooks': favoriteBooks,
+                      'submitted': True
+                  }
+                  )
+
+
+def add_to_favorites(request,book_id):
+    book = Book.objects.get(id=book_id)
+    if FavoriteList.objects.filter(username=request.user).first():
+        flist = FavoriteList.objects.get(username=request.user)
+    else:
+        flist = FavoriteList(username=request.user)
+        flist.save()
+    book.favoriteLists.add(flist)
     books = Book.objects.all()
 
     for book in books:
@@ -30,14 +91,29 @@ def displaybooks(request):
                   'bookMng/displaybooks.html',
                   {
                       'item_list': MainMenu.objects.all(),
-                      'books': books
+                      'books': books,
+                      'submitted': True
                   }
                   )
-
-
 def home(request):
     return render(request, 'bookMng/home.html')
 
+def favoritesList(request):
+
+    if FavoriteList.objects.filter(username=request.user).first():
+        favorites_list = FavoriteList.objects.get(username=request.user)
+        books = Book.objects.filter(favoriteLists=favorites_list)
+        for book in books:
+            book.pic_path = book.picture.url[14:]
+    else:
+        books = None
+
+    return render(request,
+                  'bookMng/favorite_list.html',
+                  {
+                      'books': books
+                  }
+                  )
 
 def postbook(request):
     submitted = False

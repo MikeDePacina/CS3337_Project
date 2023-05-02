@@ -17,6 +17,11 @@ class MainMenu(models.Model):
     def __str__(self):
         return self.item
 
+class FavoriteList(models.Model):
+    username = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.username)
 
 class Book(models.Model):
     name = models.CharField(max_length=200)
@@ -27,6 +32,7 @@ class Book(models.Model):
     pic_path = models.CharField(max_length=300, editable=False, blank=True)
     username = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     comments = GenericRelation(Comment)
+    favoriteLists = models.ManyToManyField(FavoriteList, related_name='favoriteBooks')
 
     def __str__(self):
         return str(self.id)
