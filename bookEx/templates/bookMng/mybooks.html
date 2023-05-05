@@ -19,11 +19,11 @@
 
         {% else %}
             {% for book in sorted_books %}
-                <div class="card m-3" style="width: 18rem;">
+                <div class="card m-3 shadow" style="width: 18rem;">
                     <img src="{% static book.pic_path %}" class="card-img-top" alt="book cover" height="200">
                     <div class="card-body">
                         <h5 class="card-title">{{ book.name }}</h5>
-                        <a href="book_detail/{{ book.id }}" class="btn btn-primary">book details</a>
+                        <a href="book_detail/{{ book.id }}" class="btn btn-primary">Book details</a>
                         <a href="book_delete/{{ book.id }}" class="btn btn-danger"> Delete </a>
                     </div>
                 </div>

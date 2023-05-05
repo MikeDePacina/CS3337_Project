@@ -8,15 +8,19 @@
 {% else %}
 <div class="d-flex flex-wrap justify-content-center">
   {% for book in sorted_books %}
-    <div class="card m-3" style="width: 18rem;">
-      <img src="{% static book.pic_path %}" class="card-img-top" alt="book cover" height="200">
+    <div class="card m-3 shadow" style="width: 18rem;">
+        <div class="position-relative">
+            <a href="displaybooks/remove/{{ book.id }}" class="position-absolute top-0 end-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove from favorites" ><i class="fa-solid fa-bookmark fa-2xl" style="color: #ffdd00; width: 1.5em;"></i></a>
+            <img src="{% static book.pic_path %}" class="card-img-top" alt="book cover" height="200">
+        </div>
        <div class="card-body">
           <h5 class="card-title">{{ book.name }}</h5>
-          <a href="book_detail/{{ book.id }}" class="btn btn-primary">book details</a>
+          <a href="book_detail/{{ book.id }}" class="btn btn-primary">Book details</a>
           {% if book.username == user %}
             <a href="book_delete/{{ book.id }}" class="btn btn-danger"> Delete </a>
           {% endif %}
-           <a href="displaybooks/remove/{{ book.id }}" class="btn btn-secondary">remove from favorites</a>
+<!--           <a href="displaybooks/remove/{{ book.id }}" class="btn btn-secondary mt-2">Remove from favorites</a>-->
+
        </div>
     </div>
   {% endfor %}
