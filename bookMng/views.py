@@ -36,13 +36,18 @@ def displaybooks(request):
     for book in books:
         book.pic_path = book.picture.url[14:]
 
+        sorted_books = sorted(books, key=lambda book: book.name.lower())
+        print('books:', books)
+        #print('sorted_books:', sorted_books)
+
 
     return render(request,
                   'bookMng/displaybooks.html',
                   {
                       'item_list': MainMenu.objects.all(),
                       'books': books,
-                      'favoriteBooks': favoriteBooks
+                      'favoriteBooks': favoriteBooks,
+                      'sorted_books': sorted_books,
                   }
                   )
 
@@ -103,15 +108,20 @@ def favoritesList(request):
     if FavoriteList.objects.filter(username=request.user).first():
         favorites_list = FavoriteList.objects.get(username=request.user)
         books = Book.objects.filter(favoriteLists=favorites_list)
+        sorted_books = sorted(books, key=lambda book: book.name.lower()) if books else []
         for book in books:
             book.pic_path = book.picture.url[14:]
+
     else:
         books = None
+        sorted_books = []
 
     return render(request,
                   'bookMng/favorite_list.html',
                   {
-                      'books': books
+                      'books': books,
+                      'sorted_books': sorted_books
+
                   }
                   )
 
@@ -176,16 +186,19 @@ def book_detail(request, book_id):
 
 def mybooks(request):
     books = Book.objects.filter(username=request.user)
+    sorted_books = sorted(books, key=lambda book: book.name.lower()) if books else []
     if len(books) == 0:
         books = None
     else:
         for book in books:
             book.pic_path = book.picture.url[14:]
+
     return render(request,
                   'bookMng/mybooks.html',
                   {
                       'item_list': MainMenu.objects.all(),
-                      'books': books
+                      'books': books,
+                      'sorted_books': sorted_books
                   }
                   )
 

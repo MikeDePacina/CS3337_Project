@@ -18,7 +18,7 @@
             <h4>You haven't posted any books</h4>
 
         {% else %}
-            {% for book in books %}
+            {% for book in sorted_books %}
                 <div class="card m-3" style="width: 18rem;">
                     <img src="{% static book.pic_path %}" class="card-img-top" alt="book cover" height="200">
                     <div class="card-body">
