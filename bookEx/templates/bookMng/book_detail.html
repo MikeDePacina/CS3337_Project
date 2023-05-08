@@ -46,10 +46,7 @@
 {% else %}
     <p><a href="{% url 'login' %}?next={{ request.path }}">Click here to log in and rate this book</a></p>
 {% endif %}
-<!--            <p class="h2">{{ book.name }}</p>-->
-<!--            <p class="h4">By {{ book.username }}</p>-->
-<!--            <p class="h4">{{ book.publishdate }}</p>-->
-<!--            <p class="h3">${{ book.price }}</p>-->
+
             {% load comment_tags %}
 {% render_comments book request %}
         </div>

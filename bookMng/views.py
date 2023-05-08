@@ -38,13 +38,12 @@ def displaybooks(request):
 
         sorted_books = sorted(books, key=lambda book: book.name.lower())
         print('books:', books)
-        #print('sorted_books:', sorted_books)
+
 
 
     return render(request,
                   'bookMng/displaybooks.html',
                   {
-                      'item_list': MainMenu.objects.all(),
                       'books': books,
                       'favoriteBooks': favoriteBooks,
                       'sorted_books': sorted_books,
@@ -71,7 +70,6 @@ def remove_from_favorites(request,book_id):
     return render(request,
                   'bookMng/displaybooks.html',
                   {
-                      'item_list': MainMenu.objects.all(),
                       'books': books,
                       'favoriteBooks': favoriteBooks,
                       'submitted': True
@@ -95,7 +93,6 @@ def add_to_favorites(request,book_id):
     return render(request,
                   'bookMng/displaybooks.html',
                   {
-                      'item_list': MainMenu.objects.all(),
                       'books': books,
                       'submitted': True
                   }
@@ -130,7 +127,6 @@ def postbook(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            # form.save()
             book = form.save(commit=False)
             try:
                 book.username = request.user
@@ -147,7 +143,6 @@ def postbook(request):
                   'bookMng/postbook.html',
                   {
                       'form': form,
-                      'item_list': MainMenu.objects.all(),
                       'submitted': submitted,
                   }
                   )
@@ -174,7 +169,6 @@ def book_detail(request, book_id):
     return render(request,
                   'bookMng/book_detail.html',
                   {
-                      'item_list': MainMenu.objects.all(),
                       'book': book,
                       'average_rating': average_rating,
                       'user_rating': user_rating
@@ -196,7 +190,6 @@ def mybooks(request):
     return render(request,
                   'bookMng/mybooks.html',
                   {
-                      'item_list': MainMenu.objects.all(),
                       'books': books,
                       'sorted_books': sorted_books
                   }
@@ -207,11 +200,7 @@ def book_delete(request, book_id):
     book = Book.objects.get(id=book_id)
     book.delete()
     return render(request,
-                  'bookMng/book_delete.html',
-                  {
-                      'item_list': MainMenu.objects.all(),
-                  }
-                  )
+                  'bookMng/book_delete.html')
 
 
 def search(request):
